@@ -36,7 +36,7 @@
       "ignored_cache_file": true
     }
   },
-  "publication_manifest_sha256": "37b9de9836f718f26c3c7c6c69e7314f8a08afe9c354918d3e0a9d413937c3a5",
+  "publication_manifest_sha256": "1bd04369daf9c45612496800c2868c2d449ff414de5a04bb3952c5ed148d4b28",
   "config_sha256": "798f0a802ff1f4b7f2c5217ecb46ac538cb0dca45f24078542f81d794b72027a",
   "old_combined_f1_f2_receipt_reused": false,
   "ci_run": false,

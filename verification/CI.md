@@ -1,19 +1,28 @@
 # Public CI
 
-This is a tentative public version of the F1 proof package.
+**Pass.** [Public workflow run 41022967640](https://github.com/KitaKen1/fujita-freeness/actions/runs/41022967640)
+checked proof/source commit `f56699dc58a29c4bc19bef2f7a5db48800f6e7bf`.
 
-The [public Actions workflow](https://github.com/KitaKen1/fujita-freeness/actions)
-builds the canonical and ordinary proof projects separately, verifies source
-copies and target signatures, audits the target axioms, and runs the pinned
-native Comparator with Linux bubblewrap and default kernel replay.
+| Check | Result |
+|---|---|
+| Source copies, reference signatures and import separation | Pass |
+| Ordinary build without Comparator | Pass |
+| Canonical solution and independent reference build | Pass |
+| Target axioms | Only `propext`, `Classical.choice`, `Quot.sound` |
+| Native Comparator with Linux bubblewrap | Pass |
+| Default Lean kernel replay | Accepted |
 
-The initial public run is pending at packaging time. Its URL, tested commit,
-job results, and downloaded verification evidence are recorded independently
-after execution. Earlier local receipts are not presented as public CI results.
+The downloaded log contains both `Lean default kernel accepts the solution`
+and `Your solution is okay!`, and no sandbox-disabled warning. The workflow
+job conclusions and downloaded artifact hashes are retained in
+[public-ci-evidence.json](public-ci-evidence.json). The run records the two
+library-backed targets `FujitaPublication.fujita` and
+`FujitaPublication.variants.mixed`.
 
-The standalone FC problem file retains two intentional `sorry` placeholders.
-Its definitions are not yet connected by a Lean dictionary to the proof-library
-definitions. Passing the proof CI does not complete that separate bridge or
-resolve the retained short-header FC copyright-linter failure.
+This remains a tentative public version. The standalone FC problem file has two
+intentional `sorry` placeholders. Its dictionary to the proof-library definitions
+is not implemented; its retained short header also still fails FC's copyright
+linter. The proof CI does not claim to complete these separate tasks.
 
-No upstream issue, comment, or PR is posted by this workflow.
+Documentation-only result updates use `[skip ci]` and do not change the tested
+Lean sources. No upstream issue, comment or PR was posted.

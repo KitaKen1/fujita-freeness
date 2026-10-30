@@ -5,7 +5,7 @@
     "FujitaPublication.fujita",
     "FujitaPublication.variants.mixed"
   ],
-  "publication_manifest_sha256": "37b9de9836f718f26c3c7c6c69e7314f8a08afe9c354918d3e0a9d413937c3a5",
+  "publication_manifest_sha256": "1bd04369daf9c45612496800c2868c2d449ff414de5a04bb3952c5ed148d4b28",
   "builds": [
     {
       "directory": "lean",

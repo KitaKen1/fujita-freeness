@@ -11,8 +11,8 @@
   "proof_mathlib_commit": "f6090c7095e1e56b3464c1daba5f24631f1290d2",
   "shared_lean_sources": 2310,
   "fclike_to_library_kernel_dictionary": "not established",
-  "ci_run": false,
-  "published": false,
+  "ci_run": true,
+  "published": true,
   "excluded": [
     ".lake caches",
     ".git",
@@ -27,8 +27,8 @@
       "bytes": 6182
     },
     ".gitignore": {
-      "sha256": "baaea92fcadfb8026d2e4cd00cb466993439a2ae9ea1436762452171224deee8",
-      "bytes": 56
+      "sha256": "0669ad80b0e0d2969b0ff35c172f9f9e0d154a3fa5ee5d39559ae4456a6c90e9",
+      "bytes": 75
     },
     "FClikelean/Fujita.lean": {
       "sha256": "0b02828619081cb5223ac6d9610d42e27cd7e0b822b114d8206c1b1e2b27e21f",
@@ -47,8 +47,8 @@
       "bytes": 1993
     },
     "README.md": {
-      "sha256": "fa404b504afe0618fbf8e45d0821b1a328713ae283c7bcf6a627d30d794e4a2f",
-      "bytes": 12703
+      "sha256": "5b4403c78c5d8ba0971ceef3ac49a8e400211857106f13980902a0bfbb354cf0",
+      "bytes": 12879
     },
     "ci/check-axioms.py": {
       "sha256": "8cfd703582b1e16b24b3dfbf5340ab728e6eb42e7bfc5be117bc73ee2e2158ab",
@@ -18659,8 +18659,8 @@
       "bytes": 331549
     },
     "verification/CI.md": {
-      "sha256": "bbf6e9e694ddb03eb927e249d4effeec96e151bb18b71a122269aec1a1307514",
-      "bytes": 972
+      "sha256": "000c586fd5f0d3610bb59301b68a0a0b3bbec24e9172c53546508a8de4378117",
+      "bytes": 1399
     },
     "verification/README.md": {
       "sha256": "4ae074305606de319ff18c3b30da232cf2510f0237acda79ffd16403db95b004",
@@ -18678,5 +18678,7 @@
   "public_ci_prepared_at": "2026-10-30",
   "public_repository": "KitaKen1/fujita-freeness",
   "publication_status": "tentative",
-  "public_ci_status": "pending at packaging time"
+  "public_ci_status": "pass",
+  "public_ci_run_id": 41022967640,
+  "public_ci_source_commit": "f56699dc58a29c4bc19bef2f7a5db48800f6e7bf"
 }

@@ -4,3 +4,5 @@
 *.pyc
 
 /ci-results/
+
+/verification/ci/

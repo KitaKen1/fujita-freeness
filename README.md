@@ -2,6 +2,8 @@
 
 # Lean proofs of Fujita freeness and its mixed variant
 
+[![Lean verification](https://github.com/KitaKen1/fujita-freeness/actions/workflows/lean.yml/badge.svg)](https://github.com/KitaKen1/fujita-freeness/actions/runs/41022967640)
+
 Fujita's freeness conjecture concerns global generation of adjoint line bundles
 on smooth projective varieties. The classical statement comes from
 [Fujita (1987)](https://doi.org/10.2969/aspm/01010167).

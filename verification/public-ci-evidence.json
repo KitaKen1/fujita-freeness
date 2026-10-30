@@ -1,0 +1,102 @@
+{
+  "repository": "KitaKen1/fujita-freeness",
+  "private": false,
+  "run_id": 41022967640,
+  "run_url": "https://github.com/KitaKen1/fujita-freeness/actions/runs/41022967640",
+  "commit": "f56699dc58a29c4bc19bef2f7a5db48800f6e7bf",
+  "status": "completed",
+  "conclusion": "success",
+  "evidence": [
+    {
+      "name": "proof-and-comparator-1",
+      "id": 12972600005,
+      "zip_sha256": "da687e6f80a77da4e2d6118d86887552083ce238baa179ca4a1bcb91e72c54f3",
+      "result": {
+        "recorded_at": "2026-10-30T11:00:31.299446+00:00",
+        "repository": "KitaKen1/fujita-freeness",
+        "commit": "f56699dc58a29c4bc19bef2f7a5db48800f6e7bf",
+        "run_id": "41022967640",
+        "run_attempt": "1",
+        "project": "lean",
+        "targets": [
+          "FujitaPublication.fujita",
+          "FujitaPublication.variants.mixed"
+        ],
+        "steps": {
+          "source": "success",
+          "setup": "success",
+          "cache": "success",
+          "build": "success",
+          "axioms": "success",
+          "comparator": "success"
+        },
+        "comparator_sandbox_disabled": false,
+        "fc_representation_to_library_dictionary": "not established",
+        "fc_statement_proof_completed": false,
+        "scope": "library-backed proof; separate standalone FC representation excluded"
+      },
+      "axiom_audit": {
+        "status": "pass",
+        "targets": {
+          "FujitaPublication.fujita": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "FujitaPublication.variants.mixed": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ]
+        }
+      },
+      "comparator_success_marker": true,
+      "default_kernel_accepts": true,
+      "sandbox_disabled_warning": false
+    },
+    {
+      "name": "ordinary-build-1",
+      "id": 12968460278,
+      "zip_sha256": "922e12daf29f561db8785f1491877b3eb676d9c7685acf531eb219807e6b829a",
+      "result": {
+        "recorded_at": "2026-10-30T09:41:09.668316+00:00",
+        "repository": "KitaKen1/fujita-freeness",
+        "commit": "f56699dc58a29c4bc19bef2f7a5db48800f6e7bf",
+        "run_id": "41022967640",
+        "run_attempt": "1",
+        "project": "leanWithoutComparator",
+        "targets": [
+          "FujitaPublication.fujita",
+          "FujitaPublication.variants.mixed"
+        ],
+        "steps": {
+          "source": "success",
+          "setup": "success",
+          "cache": "success",
+          "build": "success",
+          "axioms": "success",
+          "comparator": "not_requested"
+        },
+        "comparator_sandbox_disabled": false,
+        "fc_representation_to_library_dictionary": "not established",
+        "fc_statement_proof_completed": false,
+        "scope": "library-backed proof; separate standalone FC representation excluded"
+      },
+      "axiom_audit": {
+        "status": "pass",
+        "targets": {
+          "FujitaPublication.fujita": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "FujitaPublication.variants.mixed": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ]
+        }
+      }
+    }
+  ]
+}
