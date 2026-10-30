@@ -1,0 +1,160 @@
+name: Lean verification
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: lean-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  LEAN_NUM_THREADS: '2'
+
+jobs:
+  proof:
+    name: Proof, axioms, sandboxed Comparator
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify source copies and independent reference
+        id: source
+        run: |
+          mkdir -p ci-results
+          python3 lean/comparator/check-inputs.py | tee ci-results/source-audit.json
+      - name: Prepare disk and bubblewrap
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /usr/local/share/boost /opt/hostedtoolcache/CodeQL
+          sudo apt-get update -qq
+          sudo apt-get install -y bubblewrap zstd
+          if [ -e /proc/sys/kernel/apparmor_restrict_unprivileged_userns ]; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
+          bwrap --ro-bind / / --unshare-user --uid 0 --gid 0 true
+          df -h
+      - name: Install pinned elan and Lean
+        id: setup
+        run: |
+          curl --fail --location --retry 3 'https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz' -o "$RUNNER_TEMP/elan.tar.gz"
+          echo '42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  '"$RUNNER_TEMP/elan.tar.gz" | sha256sum --check
+          tar -xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP"
+          "$RUNNER_TEMP/elan-init" -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/elan" toolchain install "$(cat lean/lean-toolchain)"
+      - name: Download pinned Mathlib cache
+        id: cache
+        working-directory: lean
+        run: |
+          lean --version
+          lake exe cache get
+      - name: Build solution, axiom report, and reference
+        id: build
+        working-directory: lean
+        run: |
+          set -o pipefail
+          lake build FCSolution FCAudit Challenge 2>&1 | tee ../ci-results/build.log
+      - name: Check target axioms
+        id: axioms
+        run: |
+          set -o pipefail
+          (cd lean && lake env lean FCAudit.lean) 2>&1 | tee ci-results/axioms.log
+          python3 ci/check-axioms.py ci-results/axioms.log ci-results/axiom-audit.json
+      - name: Run Comparator with Linux sandbox
+        id: comparator
+        working-directory: lean
+        timeout-minutes: 300
+        run: |
+          set -o pipefail
+          lake comparator 2>&1 | tee ../ci-results/comparator.log
+      - name: Record outcomes
+        if: always()
+        env:
+          PROJECT: lean
+          SOURCE_OUTCOME: ${{ steps.source.outcome }}
+          SETUP_OUTCOME: ${{ steps.setup.outcome }}
+          CACHE_OUTCOME: ${{ steps.cache.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          AXIOMS_OUTCOME: ${{ steps.axioms.outcome }}
+          COMPARATOR_OUTCOME: ${{ steps.comparator.outcome }}
+        run: python3 ci/record-result.py
+      - name: Upload verification logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: proof-and-comparator-${{ github.run_attempt }}
+          path: ci-results/
+          retention-days: 14
+          if-no-files-found: warn
+
+  ordinary:
+    name: Ordinary build without Comparator
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify source copies
+        id: source
+        run: |
+          mkdir -p ci-results
+          python3 lean/comparator/check-inputs.py | tee ci-results/source-audit.json
+      - name: Prepare disk
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /usr/local/share/boost /opt/hostedtoolcache/CodeQL
+          df -h
+      - name: Install pinned elan and Lean
+        id: setup
+        run: |
+          curl --fail --location --retry 3 'https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz' -o "$RUNNER_TEMP/elan.tar.gz"
+          echo '42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  '"$RUNNER_TEMP/elan.tar.gz" | sha256sum --check
+          tar -xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP"
+          "$RUNNER_TEMP/elan-init" -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/elan" toolchain install "$(cat lean/lean-toolchain)"
+      - name: Download pinned Mathlib cache
+        id: cache
+        working-directory: leanWithoutComparator
+        run: lake exe cache get
+      - name: Build ordinary proof project
+        id: build
+        working-directory: leanWithoutComparator
+        run: |
+          set -o pipefail
+          lake build 2>&1 | tee ../ci-results/build.log
+      - name: Check target axioms
+        id: axioms
+        run: |
+          set -o pipefail
+          (cd leanWithoutComparator && lake env lean FCAudit.lean) 2>&1 | tee ci-results/axioms.log
+          python3 ci/check-axioms.py ci-results/axioms.log ci-results/axiom-audit.json
+      - name: Record outcomes
+        if: always()
+        env:
+          PROJECT: leanWithoutComparator
+          SOURCE_OUTCOME: ${{ steps.source.outcome }}
+          SETUP_OUTCOME: ${{ steps.setup.outcome }}
+          CACHE_OUTCOME: ${{ steps.cache.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          AXIOMS_OUTCOME: ${{ steps.axioms.outcome }}
+          COMPARATOR_OUTCOME: not_requested
+        run: python3 ci/record-result.py
+      - name: Upload verification logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ordinary-build-${{ github.run_attempt }}
+          path: ci-results/
+          retention-days: 14
+          if-no-files-found: warn

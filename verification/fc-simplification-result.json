@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-10-23T09:05:53.628745+00:00",
+  "status": "pass",
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "/private/tmp/FujitaSimplification.lean"
+  ],
+  "exit_code": 0,
+  "before_source_sha256": "ab06a752be3e1e0ae6c9e8b66f54ca328eee94d34d1b8e5fe6790e7c4327d73a",
+  "after_source_sha256": "0b02828619081cb5223ac6d9610d42e27cd7e0b822b114d8206c1b1e2b27e21f",
+  "check_source_sha256": "6ac484b9de4d87f6367e7e0895e8169414989319e4e3d92ea5b690ce147dca82",
+  "checks": [
+    "CartierDivisor equality",
+    "sectionSpace membership",
+    "GloballyGenerated equivalence",
+    "Ample equivalence",
+    "Nef equivalence",
+    "IsCanonical equivalence"
+  ],
+  "proofs": "rfl or Iff.rfl",
+  "log": "fc-simplification.log"
+}

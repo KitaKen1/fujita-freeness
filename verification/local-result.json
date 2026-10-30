@@ -1,0 +1,87 @@
+{
+  "recorded_at": "2026-10-24T02:53:03.521916+00:00",
+  "scope": "F1github local package",
+  "targets": [
+    "FujitaPublication.fujita",
+    "FujitaPublication.variants.mixed"
+  ],
+  "publication_manifest_sha256": "37b9de9836f718f26c3c7c6c69e7314f8a08afe9c354918d3e0a9d413937c3a5",
+  "builds": [
+    {
+      "directory": "lean",
+      "command": [
+        "lake",
+        "build",
+        "FCSolution",
+        "FCAudit",
+        "Challenge"
+      ],
+      "exit_code": 0,
+      "log": "library-build.log",
+      "log_sha256": "4a939127b77151e114b21a9ced4e9ef4efcbafe8e7f8902beb43017c0bef8486",
+      "dependency_warnings_present": true
+    },
+    {
+      "directory": "leanWithoutComparator",
+      "command": [
+        "lake",
+        "build",
+        "FCSolution",
+        "FCAudit"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-build.log",
+      "log_sha256": "5fca9147b12faf9567c30a86d937577a36d77d2707281b3dc31ff6540589579c",
+      "dependency_warnings_present": true
+    }
+  ],
+  "permitted_target_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "source_audit": {
+    "status": "pass",
+    "shared_lean_sources": 2310,
+    "targets": [
+      "FujitaPublication.fujita",
+      "FujitaPublication.variants.mixed"
+    ],
+    "reference_import_closure": 405,
+    "fclike_definition_count": 6,
+    "fclike_statement_holes": 2,
+    "f2_target_included": false,
+    "fclike_to_library_kernel_dictionary": "not established"
+  },
+  "fclike": {
+    "checked_at": "2026-10-23T07:51:55.284108+00:00",
+    "source": "FClikelean/Fujita.lean",
+    "source_sha256": "0b02828619081cb5223ac6d9610d42e27cd7e0b822b114d8206c1b1e2b27e21f",
+    "line_count": 120,
+    "definition_count": 6,
+    "intentional_statement_holes": 2,
+    "custom_library_imports": [],
+    "fc_commit": "c83a94d785d0fb3b9b9a2a94e8ffff8cce76a346",
+    "mathlib_commit": "0df444a360eaa60ab8c11dca51a86af692955474",
+    "fc_toolchain": "leanprover/lean4:v4.33.1",
+    "canonical_status": "fail",
+    "canonical_short_header_build_exit_code": 1,
+    "temporary_fc_header_audit_exit_code": 0,
+    "mathlib_only_exit_code": 0,
+    "canonical_header_preserved": true,
+    "temporary_header_only_change": true,
+    "temporary_header_source_sha256": "66d1f3652d5910cd45c8831d16720487ddac44cdc1e33e1539438238fe01e3aa",
+    "official_configuration_unmodified": true,
+    "fclike_to_library_kernel_dictionary": "not established",
+    "ci_run": false,
+    "published": false,
+    "instance_count": 1,
+    "variable_declarations": 0
+  },
+  "comparator": {
+    "status": "pass",
+    "receipt": "local-comparator-result.json"
+  },
+  "ci_run": false,
+  "published": false
+}

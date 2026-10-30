@@ -1,0 +1,45 @@
+name = "mixed_fujita"
+version = "0.1.0"
+defaultTargets = ["FCSolution", "FCAudit"]
+requiresModuleSystem = true
+
+[leanOptions]
+autoImplicit = false
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "f6090c7095e1e56b3464c1daba5f24631f1290d2"
+
+[[lean_lib]]
+name = "MixedFujita"
+
+[[lean_lib]]
+name = "LeanPool"
+
+[[lean_lib]]
+name = "TauCeti"
+leanOptions = { autoImplicit = true }
+
+[[lean_lib]]
+name = "OAI"
+
+[[lean_lib]]
+name = "Hironaka"
+leanOptions = { autoImplicit = false, relaxedAutoImplicit = false, maxSynthPendingDepth = 3 }
+
+[[lean_lib]]
+name = "SGA"
+leanOptions = { autoImplicit = true, relaxedAutoImplicit = false, maxSynthPendingDepth = 3 }
+
+[[lean_lib]]
+name = "FCTargetDefinitions"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "FCSolution"
+
+[[lean_lib]]
+name = "FCAudit"

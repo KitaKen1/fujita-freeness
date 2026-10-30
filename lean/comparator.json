@@ -1,0 +1,14 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "FCSolution",
+  "theorem_names": [
+    "FujitaPublication.fujita",
+    "FujitaPublication.variants.mixed"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ]
+}

@@ -1,0 +1,111 @@
+/-
+Copyright (c) 2026 The Tau Ceti contributors. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: The Tau Ceti contributors
+-/
+module
+
+public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Sheafification
+public import Mathlib.Algebra.Category.Ring.Limits
+
+/-!
+# Basic definitions for sheaves of modules
+
+This file collects the coefficient sheaf obtained by forgetting commutativity, the original
+commutative-ring actions on its section modules, the counit
+identifying the sheafification of the underlying presheaf of a sheaf of modules with that sheaf,
+and the vanishing of every sheaf of modules over a sheaf of rings whose sections are trivial.
+
+## Main declarations
+
+* `SheafOfModules.ringCatSheaf` forgets commutativity in a sheaf of commutative rings;
+* `SheafOfModules.isZero_of_forall_subsingleton`: sheaves of modules over a sheaf of rings all of
+  whose rings of sections are trivial are zero objects;
+* `SheafOfModules.sheafificationIso` identifies a sheaf of modules with the sheafification of its
+  underlying presheaf, naturally (`SheafOfModules.sheafificationIso_inv_naturality`).
+
+This supports `TauCetiRoadmap/JacobianChallenge/README.md`, Layer A, item "Invertible sheaves on a
+scheme; the Picard group `Pic X` under `⊗`".
+-/
+
+public section
+
+open CategoryTheory Category Limits
+
+namespace TauCeti
+
+universe u v v₁ u₁
+
+noncomputable section
+
+namespace SheafOfModules
+
+variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
+
+/-- Every sheaf of modules over a sheaf of rings all of whose rings of sections are trivial is a
+zero object. -/
+theorem isZero_of_forall_subsingleton {S : Sheaf J RingCat.{u}}
+    (hS : ∀ W, Subsingleton (S.obj.obj W)) (N : SheafOfModules.{v} S) : IsZero N := by
+  rw [IsZero.iff_id_eq_zero]
+  apply SheafOfModules.hom_ext
+  ext W x
+  have := hS W
+  have := Module.subsingleton (S.obj.obj W) (N.val.obj W)
+  exact Subsingleton.elim _ _
+
+variable [HasWeakSheafify J AddCommGrpCat.{v}] [J.WEqualsLocallyBijective AddCommGrpCat.{v}]
+
+/-- The sheaf of rings underlying a sheaf of commutative rings on a site; the site-level
+analogue of `AlgebraicGeometry.Scheme.ringCatSheaf`. -/
+abbrev ringCatSheaf (R : Sheaf J CommRingCat.{u})
+    [J.HasSheafCompose (forget₂ CommRingCat RingCat.{u})] : Sheaf J RingCat.{u} :=
+  (sheafCompose J (forget₂ CommRingCat RingCat.{u})).obj R
+
+/-- Sections of a sheaf of modules over the underlying ring sheaf retain the module action
+of the original commutative ring of sections. -/
+instance _root_.SheafOfModules.sectionModule
+    {R : Sheaf J CommRingCat.{u}} [J.HasSheafCompose (forget₂ CommRingCat RingCat.{u})]
+    (P : _root_.SheafOfModules.{v} (ringCatSheaf R)) (U : Cᵒᵖ) :
+    Module (R.obj.obj U) (P.val.obj U) :=
+  inferInstanceAs (Module ((ringCatSheaf R).obj.obj U) (P.val.obj U))
+
+/-- Sheafifying the underlying presheaf of modules of a sheaf of `R`-modules `M`, for a sheaf of
+rings `R`, recovers `M`; this is the counit of the sheafification adjunction. -/
+def sheafificationIso (R : Sheaf J RingCat.{u}) (M : SheafOfModules.{v} R) :
+    (PresheafOfModules.sheafification (R := R) (𝟙 R.obj)).obj M.val ≅ M :=
+  (asIso (PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).counit).app M
+
+/-- The forward map of `sheafificationIso` is the counit of the sheafification adjunction. -/
+@[simp]
+theorem sheafificationIso_hom (R : Sheaf J RingCat.{u}) (M : SheafOfModules.{v} R) :
+    (sheafificationIso R M).hom =
+      (PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).counit.app M := by
+  simp only [sheafificationIso]
+  rfl
+
+/-- `sheafificationIso` is natural: its inverse intertwines a morphism of sheaves of modules with
+the sheafification of the underlying morphism of presheaves of modules. -/
+@[reassoc]
+theorem sheafificationIso_inv_naturality {R : Sheaf J RingCat.{u}} {M N : SheafOfModules.{v} R}
+    (f : M ⟶ N) :
+    f ≫ (sheafificationIso R N).inv =
+      (sheafificationIso R M).inv ≫ (PresheafOfModules.sheafification (𝟙 R.obj)).map f.val := by
+  rw [Iso.comp_inv_eq, assoc, Iso.eq_inv_comp, sheafificationIso_hom, sheafificationIso_hom]
+  exact ((PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).counit.naturality f).symm
+
+/-- The inverse direction of `sheafificationIso_inv_naturality`. -/
+@[reassoc]
+theorem sheafificationIso_hom_naturality {R : Sheaf J RingCat.{u}} {M N : SheafOfModules.{v} R}
+    (f : M ⟶ N) :
+    (PresheafOfModules.sheafification (𝟙 R.obj)).map f.val ≫ (sheafificationIso R N).hom =
+      (sheafificationIso R M).hom ≫ f := by
+  rw [← cancel_epi (sheafificationIso R M).inv, Iso.inv_hom_id_assoc,
+    ← Category.assoc, ← sheafificationIso_inv_naturality, Category.assoc,
+    Iso.inv_hom_id, Category.comp_id]
+
+end SheafOfModules
+
+end
+
+
+end TauCeti

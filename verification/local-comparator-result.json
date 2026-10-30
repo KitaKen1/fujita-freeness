@@ -1,0 +1,45 @@
+{
+  "status": "pass",
+  "exit_code": 0,
+  "recorded_at": "2026-10-24T02:53:03.521916+00:00",
+  "started_at": "2026-10-23T07:18:18.733241+00:00",
+  "start_time_source": "log file creation time",
+  "command": [
+    "lake",
+    "comparator",
+    "--inadvisably-no-sandbox",
+    "--challenge-from-export",
+    ".lake/exports/challenge-comparator.ndjson",
+    "--solution-from-export",
+    ".lake/exports/solution-comparator.ndjson"
+  ],
+  "directory": "lean",
+  "targets": [
+    "FujitaPublication.fujita",
+    "FujitaPublication.variants.mixed"
+  ],
+  "sandbox_enabled": false,
+  "external_kernel_run": false,
+  "log": "comparator.log",
+  "log_sha256": "44185e931f2fc8b47a320483e3fea92b5edc0288cf80f976547fd712815368a4",
+  "exports": {
+    "challenge": {
+      "file": "lean/.lake/exports/challenge-comparator.ndjson",
+      "sha256": "f5d57ca794f40fdadf9468f509fe3fac5dc429679500cf26b1b4400331efee0f",
+      "bytes": 464142876,
+      "ignored_cache_file": true
+    },
+    "solution": {
+      "file": "lean/.lake/exports/solution-comparator.ndjson",
+      "sha256": "18c4d6db61715137582a93ed4e15c44447c325f0b118d474e4c913aeb7030823",
+      "bytes": 1781792960,
+      "ignored_cache_file": true
+    }
+  },
+  "publication_manifest_sha256": "37b9de9836f718f26c3c7c6c69e7314f8a08afe9c354918d3e0a9d413937c3a5",
+  "config_sha256": "798f0a802ff1f4b7f2c5217ecb46ac538cb0dca45f24078542f81d794b72027a",
+  "old_combined_f1_f2_receipt_reused": false,
+  "ci_run": false,
+  "published": false,
+  "finished_at": "2026-10-23T12:49:26.679615+00:00"
+}

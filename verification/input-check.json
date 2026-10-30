@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "shared_lean_sources": 2310,
+  "targets": [
+    "FujitaPublication.fujita",
+    "FujitaPublication.variants.mixed"
+  ],
+  "reference_import_closure": 405,
+  "fclike_definition_count": 6,
+  "fclike_statement_holes": 2,
+  "f2_target_included": false,
+  "fclike_to_library_kernel_dictionary": "not established"
+}
